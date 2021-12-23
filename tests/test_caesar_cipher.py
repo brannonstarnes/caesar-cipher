@@ -1,5 +1,7 @@
 from caesar_cipher import __version__
-from caesar_cipher.caesar_cipher import encrypt
+from caesar_cipher.caesar_cipher import encrypt, decrypt, crack
+
+
 import pytest
 
 def test_version():
@@ -40,7 +42,7 @@ def test_with_non_alpha():
     expected = "Hjnnf b 1!"
     assert actual == expected
 
-@pytest.mark.skip("to do")
+
 def test_round_trip():
     original = "Gimme a 1!"
     shift = 5
@@ -49,7 +51,7 @@ def test_round_trip():
     expected = original
     assert actual == expected
 
-@pytest.mark.skip("to do")
+
 def test_crack_phrase():
     phrase = "It was the best of times, it was the worst of times."
     encrypted = encrypt(phrase, 10)
@@ -57,7 +59,6 @@ def test_crack_phrase():
     expected = phrase
     assert actual == expected
 
-@pytest.mark.skip("to do")
 def test_crack_nonsense():
     phrase = "Ix fhw txe fofg of ndhrl, it nad tho hndrk of allkd."
     encrypted = encrypt(phrase, 10)

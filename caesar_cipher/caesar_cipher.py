@@ -1,4 +1,4 @@
-from inspect import EndOfBlock
+from caesar_cipher.corpus_loader import real_names, real_words
 import re 
 
 # code 65-90 A-Z, 97-122 a-z
@@ -22,12 +22,10 @@ def encrypt(plain_text, shift):
         elif letter_code < 122 and new_code > 122:
             new_code = (new_code - 122) + 96
             encrypted_letter = chr(new_code)
-            print("endcoded letter: ", encrypted_letter)
             encrypted_text += encrypted_letter     
         elif letter_code >= 97 and letter_code <= 122:
             new_code = letter_code + shift
             encrypted_letter = chr(new_code)
-            print("endcoded letter: ", encrypted_letter)
             encrypted_text += encrypted_letter
         
         else:
@@ -37,8 +35,26 @@ def encrypt(plain_text, shift):
 
 
 
-def decrypt():
-    pass
+def decrypt(encrpyted_text, shift):
+    return encrypt(encrpyted_text, -shift)
+
+
+def crack(encrypted_text):
+    #check decrypt with each shift, compare results against words list
+    shift = 1
+    pool = []
+    while shift < 26:
+        result = decrypt(encrypted_text, -shift)
+        pool.append(result)
+        shift += 1
+    for phrase in pool:
+        num_words = count_words(phrase)
+        accuracy = int(num_words / len(phrase.split()) * 100)
+        if accuracy > 65:
+            return phrase
+    if accuracy < 65:
+        return ""
+        
 
 
 
@@ -51,7 +67,7 @@ def count_words(text):
 
     for word in word_pool:
         word = re.sub(r"[^A-Za-z]+", "", word)
-        if word.lower() in words or word in names:
+        if word.lower() in real_words or word in real_names:
             num_words += 1
         else:
             pass
@@ -59,5 +75,3 @@ def count_words(text):
     return num_words
 
 ##************************CRACKING*******************************
-def crack():
-    pass
